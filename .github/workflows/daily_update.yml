@@ -1,0 +1,22 @@
+name: Daily Repository Update
+
+on:
+  schedule:
+    - cron: '30 8 * * *'  # Runs at 8:30 UTC (2:00 PM IST) every day
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update with 22f3001839@ds.study.iitm.ac.in
+        run: |
+          echo "Daily update: $(date)" >> update_log.txt
+          git config --local user.email "22f3001839@ds.study.iitm.ac.in"
+          git config --local user.name "GitHub Action"
+          git add update_log.txt
+          git commit -m "Daily automated update"
+          git push
